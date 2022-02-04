@@ -47,7 +47,13 @@ setupApp();
 const container = document.getElementById('app');
 const bootstrap = JSON.parse(container?.getAttribute('data-bootstrap') ?? '{}');
 const user = { ...bootstrap.user };
-const menu = { ...bootstrap.common.menu_data };
+let menu = { ...bootstrap.common.menu_data };
+menu.menu.push({
+  name: 'Questions',
+  icon: 'fa-bar-chart',
+  label: 'Questions',
+  url: '/superset/Questions/',
+});
 const common = { ...bootstrap.common };
 let lastLocationPathname: string;
 initFeatureFlags(bootstrap.common.feature_flags);

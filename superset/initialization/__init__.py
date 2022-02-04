@@ -345,6 +345,11 @@ class SupersetAppInitializer:  # pylint: disable=too-many-public-methods
             category="SQL Lab",
             category_label=__("SQL Lab"),
         )
+        appbuilder.add_link(
+            "Questions",
+            label=__("Question"),
+            href="/superset/Questions/"
+        )
         appbuilder.add_view(
             DatabaseView,
             "Databases",

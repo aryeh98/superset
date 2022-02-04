@@ -94,6 +94,9 @@ const SavedQueryList = lazy(
       /* webpackChunkName: "SavedQueryList" */ 'src/views/CRUD/data/savedquery/SavedQueryList'
     ),
 );
+const Questions = lazy(
+  () => import(/* webpackChunkName: "Questions" */ 'src/views/CRUD/Questions'),
+);
 
 type Routes = {
   path: string;
@@ -130,6 +133,10 @@ export const routes: Routes = [
   {
     path: '/savedqueryview/list/',
     Component: SavedQueryList,
+  },
+  {
+    path: '/superset/Questions/',
+    Component: Questions,
   },
   {
     path: '/csstemplatemodelview/list/',
