@@ -879,6 +879,23 @@ class DatasourceEditor extends React.PureComponent {
     const { datasource } = this.state;
     return (
       <div>
+        {this.allowEditSource && (
+          <EditLockContainer>
+            <span role="button" tabIndex={0} onClick={this.onChangeEditMode}>
+              {this.state.isEditMode ? (
+                <Icons.LockUnlocked iconColor={theme.colors.grayscale.base} />
+              ) : (
+                <Icons.LockLocked iconColor={theme.colors.grayscale.base} />
+              )}
+            </span>
+            {!this.state.isEditMode && (
+              <div>{t('Click the lock to make changes.')}</div>
+            )}
+            {this.state.isEditMode && (
+              <div>{t('Click the lock to prevent further changes.')}</div>
+            )}
+          </EditLockContainer>
+        )}
         <div className="m-l-10 m-t-20 m-b-10">
           {DATASOURCE_TYPES_ARR.map(type => (
             <Radio
@@ -1032,23 +1049,6 @@ class DatasourceEditor extends React.PureComponent {
             </Col>
           )}
         </Fieldset>
-        {this.allowEditSource && (
-          <EditLockContainer>
-            <span role="button" tabIndex={0} onClick={this.onChangeEditMode}>
-              {this.state.isEditMode ? (
-                <Icons.LockUnlocked iconColor={theme.colors.grayscale.base} />
-              ) : (
-                <Icons.LockLocked iconColor={theme.colors.grayscale.base} />
-              )}
-            </span>
-            {!this.state.isEditMode && (
-              <div>{t('Click the lock to make changes.')}</div>
-            )}
-            {this.state.isEditMode && (
-              <div>{t('Click the lock to prevent further changes.')}</div>
-            )}
-          </EditLockContainer>
-        )}
       </div>
     );
   }
@@ -1271,7 +1271,6 @@ class DatasourceEditor extends React.PureComponent {
               </ColumnButtonWrapper>
               <ColumnCollectionTable
                 className="columns-table"
-                editableColumnName
                 columns={this.state.databaseColumns}
                 datasource={datasource}
                 onColumnsChange={databaseColumns =>
@@ -1291,25 +1290,27 @@ class DatasourceEditor extends React.PureComponent {
             }
             key={3}
           >
-            <ColumnCollectionTable
-              columns={this.state.calculatedColumns}
-              onColumnsChange={calculatedColumns =>
-                this.setColumns({ calculatedColumns })
-              }
-              onDatasourceChange={this.onDatasourceChange}
-              datasource={datasource}
-              editableColumnName
-              showExpression
-              allowAddItem
-              allowEditDataType
-              itemGenerator={() => ({
-                column_name: '<new column>',
-                filterable: true,
-                groupby: true,
-                expression: '<enter SQL expression here>',
-                __expanded: true,
-              })}
-            />
+            <StyledColumnsTabWrapper>
+              <ColumnCollectionTable
+                columns={this.state.calculatedColumns}
+                onColumnsChange={calculatedColumns =>
+                  this.setColumns({ calculatedColumns })
+                }
+                onDatasourceChange={this.onDatasourceChange}
+                datasource={datasource}
+                editableColumnName
+                showExpression
+                allowAddItem
+                allowEditDataType
+                itemGenerator={() => ({
+                  column_name: '<new column>',
+                  filterable: true,
+                  groupby: true,
+                  expression: '<enter SQL expression here>',
+                  __expanded: true,
+                })}
+              />
+            </StyledColumnsTabWrapper>
           </Tabs.TabPane>
           <Tabs.TabPane key={4} tab={t('Settings')}>
             <Row gutter={16}>
